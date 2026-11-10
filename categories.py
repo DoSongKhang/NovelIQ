@@ -40,7 +40,7 @@ if response.status_code == 200:
     print(f"--- ĐÃ LẤY THÀNH CÔNG {len(df)} THỂ LOẠI ---")
     
     # 6. Lưu kết quả ra file CSV
-    df.to_csv('tiki_categories.csv', index=False, encoding='utf-8-sig')
+    df.to_csv('Data/categories.csv', index=False, encoding='utf-8-sig')
     print("\n[OK] Đã lưu danh sách thể loại vào file 'tiki_categories.csv'")
 
 else:
