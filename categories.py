@@ -1,4 +1,5 @@
 import requests
+import os
 import pandas as pd
 
 # 1. Khai báo URL API
@@ -40,6 +41,7 @@ if response.status_code == 200:
     print(f"--- ĐÃ LẤY THÀNH CÔNG {len(df)} THỂ LOẠI ---")
     
     # 6. Lưu kết quả ra file CSV
+    os.makedirs('Data', exist_ok=True)  # Tạo thư mục Data nếu chưa tồn tại
     df.to_csv('Data/categories.csv', index=False, encoding='utf-8-sig')
     print("\n[OK] Đã lưu danh sách thể loại vào file 'tiki_categories.csv'")
 
