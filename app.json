@@ -1,0 +1,16 @@
+{
+  "expo": {
+    "name": "Tiki Product Intelligence",
+    "slug": "tiki-product-intelligence",
+    "version": "1.0.0",
+    "orientation": "portrait",
+    "userInterfaceStyle": "light",
+    "assetBundlePatterns": [
+      "**/*"
+    ],
+    "plugins": [
+      "expo-router"
+    ],
+    "scheme": "tikipi"
+  }
+}

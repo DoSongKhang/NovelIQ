@@ -1,0 +1,871 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Tiki Product Intelligence - Mobile UI Simulator</title>
+  <script src="https://www.gstatic.com/antigravity/web/dev/tailwindcss.min.js"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+  <style>
+    * {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+      -webkit-tap-highlight-color: transparent;
+    }
+    .font-mono {
+      font-family: 'JetBrains Mono', monospace;
+    }
+    .no-scrollbar::-webkit-scrollbar {
+      display: none;
+    }
+    .no-scrollbar {
+      -ms-overflow-style: none;
+      scrollbar-width: none;
+    }
+    /* Mobile frame realistic shadow */
+    .phone-shadow {
+      box-shadow: 0 25px 60px -15px rgba(15, 23, 42, 0.25), 0 0 0 1px rgba(15, 23, 42, 0.08);
+    }
+  </style>
+</head>
+<body class="bg-slate-100 min-h-screen flex flex-col items-center justify-center p-2 sm:p-6 text-slate-900">
+
+  <!-- Desktop Presentation Bar -->
+  <header class="w-full max-w-4xl mb-4 flex flex-wrap items-center justify-between gap-3 px-2">
+    <div>
+      <div class="flex items-center gap-2">
+        <span class="w-3 h-3 rounded-full bg-blue-600"></span>
+        <h1 class="text-lg font-bold text-slate-900 tracking-tight">Tiki Product Intelligence</h1>
+        <span class="bg-blue-100 text-blue-700 text-xs px-2 py-0.5 rounded-full font-semibold">React Native / Expo UI</span>
+      </div>
+      <p class="text-xs text-slate-500 mt-0.5">Bản mô phỏng tương tác trực tiếp (Interactive Preview) theo chuẩn thiết kế note.md</p>
+    </div>
+    <div class="flex items-center gap-2 text-xs bg-white border border-slate-200 px-3 py-1.5 rounded-lg shadow-sm">
+      <span class="text-slate-500">Trạng thái:</span>
+      <span class="inline-flex items-center gap-1.5 text-emerald-600 font-semibold">
+        <span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
+        Mock Data Active
+      </span>
+    </div>
+  </header>
+
+  <!-- Mobile Simulator Frame -->
+  <main class="w-full max-w-[412px] h-[860px] bg-white rounded-[44px] phone-shadow flex flex-col relative overflow-hidden border-[6px] border-slate-800">
+    
+    <!-- Phone Top Notch / Dynamic Island Area -->
+    <div class="h-10 bg-white flex items-center justify-between px-6 pt-2 z-30 select-none">
+      <span class="text-xs font-semibold text-slate-800">21:20</span>
+      <div class="w-24 h-4 bg-slate-900 rounded-full mx-auto"></div>
+      <div class="flex items-center gap-1.5 text-xs text-slate-800">
+        <span>5G</span>
+        <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24"><path d="M12 3c-4.97 0-9 4.03-9 9 0 2.12.74 4.07 1.97 5.61L12 22l7.03-4.39C20.26 16.07 21 14.12 21 12c0-4.97-4.03-9-9-9zm0 14c-2.76 0-5-2.24-5-5s2.24-5 5-5 5 2.24 5 5-2.24 5-5 5z"/></svg>
+        <span class="font-bold">98%</span>
+      </div>
+    </div>
+
+    <!-- Active Screen Container -->
+    <div id="screenContainer" class="flex-1 overflow-y-auto no-scrollbar bg-slate-50 relative">
+
+      <!-- ================= 1. OVERVIEW SCREEN ================= -->
+      <section id="screenOverview" class="screen-view p-4 pb-20 space-y-4">
+        <!-- Header -->
+        <div class="flex items-center justify-between pt-1">
+          <div>
+            <h2 class="text-xl font-extrabold text-slate-900 tracking-tight">Tiki Intelligence</h2>
+            <p class="text-xs text-slate-500 font-medium">14 Tháng 11, 2026 • Real-time Monitoring</p>
+          </div>
+          <button class="relative p-2 rounded-xl bg-white border border-slate-200 text-slate-700 shadow-sm active:scale-95 transition">
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9"/></svg>
+            <span class="absolute -top-1 -right-1 w-4 h-4 bg-rose-500 text-white text-[9px] font-bold rounded-full flex items-center justify-center border-2 border-white">4</span>
+          </button>
+        </div>
+
+        <!-- 2x2 KPI Cards -->
+        <div class="grid grid-cols-2 gap-3">
+          <div class="bg-white p-3.5 rounded-2xl border border-slate-200/80 shadow-sm">
+            <span class="text-[11px] font-semibold text-slate-500 uppercase tracking-wider">Tổng SP</span>
+            <div class="text-xl font-bold text-slate-900 mt-1">48,920</div>
+            <div class="flex items-center gap-1 mt-1 text-[11px] text-emerald-600 font-semibold">
+              <span class="bg-emerald-50 px-1.5 py-0.5 rounded">+12.4%</span>
+              <span class="text-[10px] text-slate-400">tuần này</span>
+            </div>
+          </div>
+          <div class="bg-white p-3.5 rounded-2xl border border-slate-200/80 shadow-sm">
+            <span class="text-[11px] font-semibold text-slate-500 uppercase tracking-wider">Danh Mục</span>
+            <div class="text-xl font-bold text-slate-900 mt-1">184</div>
+            <div class="flex items-center gap-1 mt-1 text-[11px] text-emerald-600 font-semibold">
+              <span class="bg-emerald-50 px-1.5 py-0.5 rounded">+3.2%</span>
+              <span class="text-[10px] text-slate-400">tuần này</span>
+            </div>
+          </div>
+          <div class="bg-white p-3.5 rounded-2xl border border-slate-200/80 shadow-sm">
+            <span class="text-[11px] font-semibold text-slate-500 uppercase tracking-wider">Giá TB Sàn</span>
+            <div class="text-xl font-bold text-blue-600 mt-1">285k₫</div>
+            <div class="flex items-center gap-1 mt-1 text-[11px] text-rose-500 font-semibold">
+              <span class="bg-rose-50 px-1.5 py-0.5 rounded">-2.1%</span>
+              <span class="text-[10px] text-slate-400">tuần này</span>
+            </div>
+          </div>
+          <div class="bg-white p-3.5 rounded-2xl border border-slate-200/80 shadow-sm">
+            <span class="text-[11px] font-semibold text-slate-500 uppercase tracking-wider">Gian Hàng</span>
+            <div class="text-xl font-bold text-slate-900 mt-1">1,420</div>
+            <div class="flex items-center gap-1 mt-1 text-[11px] text-emerald-600 font-semibold">
+              <span class="bg-emerald-50 px-1.5 py-0.5 rounded">+8.7%</span>
+              <span class="text-[10px] text-slate-400">active</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Activity Chart Card -->
+        <div class="bg-white p-4 rounded-2xl border border-slate-200/80 shadow-sm">
+          <div class="flex items-center justify-between mb-3">
+            <div>
+              <h3 class="text-sm font-bold text-slate-900">Tần Suất Cào Dữ Liệu</h3>
+              <p class="text-[11px] text-slate-500">Khối lượng SKU ghi nhận theo khung giờ</p>
+            </div>
+            <span class="text-[10px] bg-blue-50 text-blue-700 px-2 py-0.5 rounded-md font-semibold">Hôm nay</span>
+          </div>
+          <!-- Bar visual -->
+          <div class="h-28 flex items-end justify-between gap-2 pt-2 border-b border-slate-100 pb-2">
+            <div class="flex-1 flex flex-col items-center gap-1">
+              <div class="w-full bg-blue-200/60 rounded-t-sm" style="height: 35%"></div>
+              <span class="text-[9px] text-slate-400 font-mono">00h</span>
+            </div>
+            <div class="flex-1 flex flex-col items-center gap-1">
+              <div class="w-full bg-blue-200/60 rounded-t-sm" style="height: 25%"></div>
+              <span class="text-[9px] text-slate-400 font-mono">04h</span>
+            </div>
+            <div class="flex-1 flex flex-col items-center gap-1">
+              <div class="w-full bg-blue-300 rounded-t-sm" style="height: 65%"></div>
+              <span class="text-[9px] text-slate-400 font-mono">08h</span>
+            </div>
+            <div class="flex-1 flex flex-col items-center gap-1">
+              <div class="w-full bg-blue-400 rounded-t-sm" style="height: 85%"></div>
+              <span class="text-[9px] text-slate-400 font-mono">12h</span>
+            </div>
+            <div class="flex-1 flex flex-col items-center gap-1">
+              <div class="w-full bg-blue-400 rounded-t-sm" style="height: 75%"></div>
+              <span class="text-[9px] text-slate-400 font-mono">16h</span>
+            </div>
+            <div class="flex-1 flex flex-col items-center gap-1">
+              <div class="w-full bg-blue-600 rounded-t-sm shadow-sm" style="height: 98%"></div>
+              <span class="text-[9px] font-bold text-blue-600 font-mono">20h</span>
+            </div>
+          </div>
+          <div class="flex items-center justify-between text-[11px] text-slate-500 pt-2 font-medium">
+            <span>Đỉnh điểm: 6,150 SKU / 4h</span>
+            <span class="text-emerald-600 font-semibold">99.4% Thành công</span>
+          </div>
+        </div>
+
+        <!-- Top Categories -->
+        <div class="bg-white p-4 rounded-2xl border border-slate-200/80 shadow-sm">
+          <div class="flex items-center justify-between mb-3">
+            <h3 class="text-sm font-bold text-slate-900">Top Danh Mục Cào</h3>
+            <button onclick="switchTab('analytics')" class="text-xs text-blue-600 font-semibold hover:underline">Xem thêm &rarr;</button>
+          </div>
+          <div class="space-y-3">
+            <div class="flex items-center justify-between text-xs">
+              <div class="flex items-center gap-2">
+                <span class="w-6 h-6 rounded-lg bg-blue-50 text-blue-600 font-bold flex items-center justify-center text-[11px]">#1</span>
+                <div>
+                  <div class="font-semibold text-slate-800">Sách Tiếng Việt (839)</div>
+                  <div class="text-[10px] text-slate-400">15,420 SP • TB 118k₫</div>
+                </div>
+              </div>
+              <span class="text-emerald-600 font-bold text-xs bg-emerald-50 px-1.5 py-0.5 rounded">+5.4%</span>
+            </div>
+            <div class="flex items-center justify-between text-xs">
+              <div class="flex items-center gap-2">
+                <span class="w-6 h-6 rounded-lg bg-slate-100 text-slate-600 font-bold flex items-center justify-center text-[11px]">#2</span>
+                <div>
+                  <div class="font-semibold text-slate-800">Thiết Bị Số & Phụ Kiện</div>
+                  <div class="text-[10px] text-slate-400">11,200 SP • TB 840k₫</div>
+                </div>
+              </div>
+              <span class="text-emerald-600 font-bold text-xs bg-emerald-50 px-1.5 py-0.5 rounded">+14.8%</span>
+            </div>
+            <div class="flex items-center justify-between text-xs">
+              <div class="flex items-center gap-2">
+                <span class="w-6 h-6 rounded-lg bg-slate-100 text-slate-600 font-bold flex items-center justify-center text-[11px]">#3</span>
+                <div>
+                  <div class="font-semibold text-slate-800">Điện Gia Dụng</div>
+                  <div class="text-[10px] text-slate-400">6,450 SP • TB 1,250k₫</div>
+                </div>
+              </div>
+              <span class="text-emerald-600 font-bold text-xs bg-emerald-50 px-1.5 py-0.5 rounded">+9.6%</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Featured Products -->
+        <div class="space-y-2">
+          <div class="flex items-center justify-between">
+            <h3 class="text-sm font-bold text-slate-900">Sản Phẩm Vừa Biến Động</h3>
+            <button onclick="switchTab('products')" class="text-xs text-blue-600 font-semibold hover:underline">Tất cả</button>
+          </div>
+          <!-- Card 1 -->
+          <div onclick="openProductDetail('tiki-prod-01')" class="bg-white p-3 rounded-2xl border border-slate-200/80 shadow-sm flex gap-3 cursor-pointer active:bg-slate-50">
+            <img src="https://images.unsplash.com/photo-1544947950-fa07a98d237f?w=200&auto=format&fit=crop&q=80" class="w-16 h-20 rounded-xl object-cover bg-slate-100 shrink-0">
+            <div class="flex-1 min-w-0">
+              <div class="flex items-center gap-1.5">
+                <span class="font-mono text-[9px] bg-slate-100 text-slate-600 px-1.5 py-0.5 rounded">839-9941</span>
+                <span class="text-[10px] text-slate-400 truncate">Sách Tiếng Việt</span>
+              </div>
+              <h4 class="text-xs font-semibold text-slate-900 mt-1 line-clamp-2">Cây Cam Ngọt Của Tôi - Tái bản 2024</h4>
+              <div class="flex items-baseline gap-2 mt-1.5">
+                <span class="text-sm font-bold text-blue-600">75,600₫</span>
+                <span class="text-[11px] text-slate-400 line-through">108,000₫</span>
+                <span class="text-[10px] font-bold text-rose-600 bg-rose-50 px-1 rounded">-30%</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ================= 2. PRODUCTS EXPLORER SCREEN ================= -->
+      <section id="screenProducts" class="screen-view hidden p-4 pb-20 space-y-3">
+        <!-- Header -->
+        <div>
+          <h2 class="text-xl font-extrabold text-slate-900 tracking-tight">Khám Phá Sản Phẩm</h2>
+          <p class="text-xs text-slate-500">Giám sát giá và chỉ số phân tích thời gian thực</p>
+        </div>
+
+        <!-- Search Bar -->
+        <div class="relative">
+          <input id="productSearchInput" oninput="handleSearch(this.value)" type="text" placeholder="Tìm kiếm sách, đồ điện tử, mã SKU..." class="w-full h-10 pl-9 pr-4 bg-white border border-slate-200 rounded-xl text-xs text-slate-900 focus:outline-none focus:border-blue-500 shadow-sm">
+          <svg class="w-4 h-4 text-slate-400 absolute left-3 top-3" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/></svg>
+        </div>
+
+        <!-- Filter category tags -->
+        <div class="flex gap-2 overflow-x-auto no-scrollbar py-1">
+          <button onclick="filterCategory('all', this)" class="cat-pill active px-3 py-1.5 rounded-full text-xs font-semibold bg-blue-600 text-white shrink-0">Tất cả (6)</button>
+          <button onclick="filterCategory('Sách Tiếng Việt', this)" class="cat-pill px-3 py-1.5 rounded-full text-xs font-medium bg-white border border-slate-200 text-slate-600 shrink-0">Sách (3)</button>
+          <button onclick="filterCategory('Thiết Bị Số', this)" class="cat-pill px-3 py-1.5 rounded-full text-xs font-medium bg-white border border-slate-200 text-slate-600 shrink-0">Thiết Bị Số (2)</button>
+          <button onclick="filterCategory('Điện Gia Dụng', this)" class="cat-pill px-3 py-1.5 rounded-full text-xs font-medium bg-white border border-slate-200 text-slate-600 shrink-0">Gia Dụng (1)</button>
+        </div>
+
+        <!-- Product Cards Container -->
+        <div id="productsListContainer" class="space-y-3">
+          <!-- Dynamically populated via JS -->
+        </div>
+      </section>
+
+      <!-- ================= 3. PRODUCT DETAIL SCREEN ================= -->
+      <section id="screenProductDetail" class="screen-view hidden p-4 pb-20 space-y-4">
+        <!-- Back Bar -->
+        <div class="flex items-center justify-between">
+          <button onclick="closeProductDetail()" class="flex items-center gap-1.5 text-xs font-semibold text-slate-700 bg-white border border-slate-200 px-3 py-1.5 rounded-xl shadow-sm active:bg-slate-50">
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7"/></svg>
+            Quay lại
+          </button>
+          <span class="text-xs font-mono font-semibold text-slate-500" id="detailSku">SKU-TIKI-839</span>
+          <button class="p-2 rounded-xl bg-white border border-slate-200 text-slate-700 shadow-sm">
+            <svg class="w-4 h-4 text-blue-600" fill="currentColor" viewBox="0 0 24 24"><path d="M5 5a2 2 0 012-2h10a2 2 0 012 2v16l-7-3.5L5 21V5z"/></svg>
+          </button>
+        </div>
+
+        <!-- Main Product Hero Card -->
+        <div class="bg-white p-4 rounded-2xl border border-slate-200 shadow-sm space-y-3">
+          <div class="relative w-full h-44 rounded-xl overflow-hidden bg-slate-100">
+            <img id="detailImg" src="" class="w-full h-full object-cover">
+            <span id="detailDiscountBadge" class="absolute top-2 left-2 bg-rose-600 text-white text-[10px] font-bold px-2 py-0.5 rounded-md">-30% GIẢM</span>
+          </div>
+
+          <div>
+            <span id="detailCategory" class="text-[11px] font-semibold text-blue-600 uppercase tracking-wide">Sách Tiếng Việt</span>
+            <h3 id="detailName" class="text-base font-bold text-slate-900 mt-0.5 leading-snug">Tên sản phẩm</h3>
+          </div>
+
+          <div class="flex items-baseline justify-between pt-2 border-t border-slate-100">
+            <div>
+              <span class="text-[10px] text-slate-400 font-semibold uppercase">Giá sàn ghi nhận</span>
+              <div class="flex items-baseline gap-2 mt-0.5">
+                <span id="detailCurrentPrice" class="text-2xl font-black text-blue-600">0₫</span>
+                <span id="detailOriginalPrice" class="text-xs text-slate-400 line-through">0₫</span>
+              </div>
+            </div>
+            <div class="text-right">
+              <span class="text-xs font-bold text-amber-500">★ 4.9</span>
+              <p class="text-[10px] text-slate-400">18.4k đánh giá</p>
+            </div>
+          </div>
+
+          <!-- Store Box -->
+          <div class="bg-slate-50 p-2.5 rounded-xl border border-slate-100 flex items-center justify-between text-xs">
+            <div class="flex items-center gap-2">
+              <div class="w-7 h-7 rounded-lg bg-blue-100 text-blue-700 flex items-center justify-center font-bold text-xs">TK</div>
+              <div>
+                <div class="font-semibold text-slate-800" id="detailStoreName">Tiki Trading Official</div>
+                <div class="text-[10px] text-emerald-600 font-medium">✓ Gian hàng chính hãng xác thực</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- MAJOR VISUAL ELEMENT: HISTORICAL PRICE CHART -->
+        <div class="bg-white p-4 rounded-2xl border border-slate-200 shadow-sm space-y-3">
+          <div class="flex items-center justify-between">
+            <div>
+              <h3 class="text-sm font-bold text-slate-900">Biểu Đồ Lịch Sử Giá</h3>
+              <p class="text-[11px] text-slate-500">Dữ liệu ghi nhận biến động 60 ngày</p>
+            </div>
+            <div class="flex gap-1 bg-slate-100 p-1 rounded-lg text-[10px] font-semibold">
+              <span class="px-2 py-0.5 bg-white rounded shadow-sm text-blue-600">30D</span>
+              <span class="px-2 py-0.5 text-slate-500">90D</span>
+              <span class="px-2 py-0.5 text-slate-500">ALL</span>
+            </div>
+          </div>
+
+          <!-- Price Callout -->
+          <div class="bg-blue-50 border border-blue-100 p-3 rounded-xl flex items-center justify-between">
+            <div>
+              <div class="text-[10px] font-semibold text-blue-800" id="chartDateCallout">Ghi nhận: 14/11/2026</div>
+              <div class="text-lg font-bold text-blue-700 mt-0.5" id="chartPriceCallout">75,600₫</div>
+            </div>
+            <span class="text-[10px] font-bold bg-emerald-100 text-emerald-700 px-2 py-1 rounded-md">Đáy 30 ngày</span>
+          </div>
+
+          <!-- Interactive Price Chart Visual -->
+          <div class="h-36 relative flex items-end justify-between pt-4 pb-2 border-b border-slate-100">
+            <!-- Simulated curve points -->
+            <div onclick="selectChartNode('01/10', '92,000₫')" class="cursor-pointer flex-1 flex flex-col items-center gap-1 group">
+              <div class="w-2.5 h-2.5 rounded-full bg-blue-400 group-hover:scale-125 transition" style="margin-bottom: 75px"></div>
+              <span class="text-[9px] text-slate-400 font-mono">01/10</span>
+            </div>
+            <div onclick="selectChartNode('10/10', '89,000₫')" class="cursor-pointer flex-1 flex flex-col items-center gap-1 group">
+              <div class="w-2.5 h-2.5 rounded-full bg-blue-400 group-hover:scale-125 transition" style="margin-bottom: 60px"></div>
+              <span class="text-[9px] text-slate-400 font-mono">10/10</span>
+            </div>
+            <div onclick="selectChartNode('20/10', '85,000₫')" class="cursor-pointer flex-1 flex flex-col items-center gap-1 group">
+              <div class="w-2.5 h-2.5 rounded-full bg-blue-500 group-hover:scale-125 transition" style="margin-bottom: 45px"></div>
+              <span class="text-[9px] text-slate-400 font-mono">20/10</span>
+            </div>
+            <div onclick="selectChartNode('01/11', '79,000₫')" class="cursor-pointer flex-1 flex flex-col items-center gap-1 group">
+              <div class="w-2.5 h-2.5 rounded-full bg-blue-500 group-hover:scale-125 transition" style="margin-bottom: 25px"></div>
+              <span class="text-[9px] text-slate-400 font-mono">01/11</span>
+            </div>
+            <div onclick="selectChartNode('08/11', '81,000₫')" class="cursor-pointer flex-1 flex flex-col items-center gap-1 group">
+              <div class="w-2.5 h-2.5 rounded-full bg-blue-500 group-hover:scale-125 transition" style="margin-bottom: 30px"></div>
+              <span class="text-[9px] text-slate-400 font-mono">08/11</span>
+            </div>
+            <div onclick="selectChartNode('14/11', '75,600₫')" class="cursor-pointer flex-1 flex flex-col items-center gap-1 group">
+              <div class="w-3.5 h-3.5 rounded-full bg-blue-600 ring-4 ring-blue-100 shadow" style="margin-bottom: 8px"></div>
+              <span class="text-[9px] font-bold text-blue-600 font-mono">Hôm nay</span>
+            </div>
+          </div>
+          <p class="text-[10px] text-center text-slate-400 italic">Chạm vào các mốc chấm tròn để xem đơn giá tương ứng từng ngày.</p>
+        </div>
+
+        <!-- Statistics 4-Grid -->
+        <div class="grid grid-cols-2 gap-2 text-xs">
+          <div class="bg-white p-3 rounded-xl border border-slate-200">
+            <span class="text-[10px] text-slate-400">Giá Thấp Nhất</span>
+            <div class="font-bold text-emerald-600 text-sm mt-0.5">72,000₫</div>
+          </div>
+          <div class="bg-white p-3 rounded-xl border border-slate-200">
+            <span class="text-[10px] text-slate-400">Giá Cao Nhất</span>
+            <div class="font-bold text-rose-600 text-sm mt-0.5">98,000₫</div>
+          </div>
+          <div class="bg-white p-3 rounded-xl border border-slate-200">
+            <span class="text-[10px] text-slate-400">Giá Trung Bình</span>
+            <div class="font-bold text-slate-800 text-sm mt-0.5">83,600₫</div>
+          </div>
+          <div class="bg-white p-3 rounded-xl border border-slate-200">
+            <span class="text-[10px] text-slate-400">Độ Biến Động</span>
+            <div class="font-bold text-amber-600 text-sm mt-0.5">±4.8%</div>
+          </div>
+        </div>
+
+        <!-- Collection History Table -->
+        <div class="bg-white p-4 rounded-2xl border border-slate-200 shadow-sm space-y-2">
+          <h3 class="text-sm font-bold text-slate-900">Lịch Sử Cào Dữ Liệu Gần Đây</h3>
+          <div class="space-y-2 text-xs divide-y divide-slate-100">
+            <div class="pt-2 flex items-center justify-between">
+              <div>
+                <span class="font-semibold text-slate-800">14/11/2026 20:30</span>
+                <p class="text-[10px] text-emerald-600 font-medium">Status 200 OK • Còn hàng</p>
+              </div>
+              <span class="font-mono font-bold text-slate-900">75,600₫ (-30%)</span>
+            </div>
+            <div class="pt-2 flex items-center justify-between">
+              <div>
+                <span class="font-semibold text-slate-800">13/11/2026 18:45</span>
+                <p class="text-[10px] text-emerald-600 font-medium">Status 200 OK • Còn hàng</p>
+              </div>
+              <span class="font-mono font-bold text-slate-900">79,000₫ (-27%)</span>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ================= 4. ANALYTICS SCREEN ================= -->
+      <section id="screenAnalytics" class="screen-view hidden p-4 pb-20 space-y-4">
+        <!-- Header -->
+        <div>
+          <h2 class="text-xl font-extrabold text-slate-900 tracking-tight">Trung Tâm Phân Tích</h2>
+          <p class="text-xs text-slate-500">So sánh giá và hiệu suất danh mục trên sàn Tiki</p>
+        </div>
+
+        <!-- Category Price Comparison -->
+        <div class="bg-white p-4 rounded-2xl border border-slate-200 shadow-sm space-y-3">
+          <div class="flex items-center justify-between">
+            <h3 class="text-sm font-bold text-slate-900">Giá Bình Quân Danh Mục</h3>
+            <span class="text-[10px] bg-blue-50 text-blue-700 px-2 py-0.5 rounded font-semibold">Tiki Benchmark</span>
+          </div>
+          <div class="space-y-3 text-xs">
+            <div>
+              <div class="flex justify-between mb-1">
+                <span class="font-medium text-slate-700">Điện Gia Dụng</span>
+                <span class="font-bold text-slate-900">1,250,000₫</span>
+              </div>
+              <div class="w-full bg-slate-100 h-2.5 rounded-full overflow-hidden">
+                <div class="bg-blue-600 h-full rounded-full" style="width: 100%"></div>
+              </div>
+            </div>
+            <div>
+              <div class="flex justify-between mb-1">
+                <span class="font-medium text-slate-700">Thiết Bị Số & Phụ Kiện</span>
+                <span class="font-bold text-slate-900">840,000₫</span>
+              </div>
+              <div class="w-full bg-slate-100 h-2.5 rounded-full overflow-hidden">
+                <div class="bg-indigo-500 h-full rounded-full" style="width: 67%"></div>
+              </div>
+            </div>
+            <div>
+              <div class="flex justify-between mb-1">
+                <span class="font-medium text-slate-700">Bách Hóa Online</span>
+                <span class="font-bold text-slate-900">165,000₫</span>
+              </div>
+              <div class="w-full bg-slate-100 h-2.5 rounded-full overflow-hidden">
+                <div class="bg-cyan-500 h-full rounded-full" style="width: 13%"></div>
+              </div>
+            </div>
+            <div>
+              <div class="flex justify-between mb-1">
+                <span class="font-medium text-slate-700">Sách Tiếng Việt</span>
+                <span class="font-bold text-slate-900">118,000₫</span>
+              </div>
+              <div class="w-full bg-slate-100 h-2.5 rounded-full overflow-hidden">
+                <div class="bg-emerald-500 h-full rounded-full" style="width: 9.4%"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Price Distribution Brackets -->
+        <div class="bg-white p-4 rounded-2xl border border-slate-200 shadow-sm space-y-3">
+          <h3 class="text-sm font-bold text-slate-900">Phân Phối Khung Giá</h3>
+          <div class="space-y-2 text-xs">
+            <div class="flex items-center gap-2">
+              <span class="w-20 text-slate-500 shrink-0">&lt; 100k₫</span>
+              <div class="flex-1 bg-slate-100 h-3 rounded-full overflow-hidden">
+                <div class="bg-blue-500 h-full rounded-full" style="width: 37.3%"></div>
+              </div>
+              <span class="w-12 text-right font-bold text-slate-800">37.3%</span>
+            </div>
+            <div class="flex items-center gap-2">
+              <span class="w-20 text-slate-500 shrink-0">100k - 500k₫</span>
+              <div class="flex-1 bg-slate-100 h-3 rounded-full overflow-hidden">
+                <div class="bg-indigo-600 h-full rounded-full" style="width: 40.6%"></div>
+              </div>
+              <span class="w-12 text-right font-bold text-slate-800">40.6%</span>
+            </div>
+            <div class="flex items-center gap-2">
+              <span class="w-20 text-slate-500 shrink-0">500k - 2M₫</span>
+              <div class="flex-1 bg-slate-100 h-3 rounded-full overflow-hidden">
+                <div class="bg-amber-500 h-full rounded-full" style="width: 14.1%"></div>
+              </div>
+              <span class="w-12 text-right font-bold text-slate-800">14.1%</span>
+            </div>
+            <div class="flex items-center gap-2">
+              <span class="w-20 text-slate-500 shrink-0">&gt; 2M₫</span>
+              <div class="flex-1 bg-slate-100 h-3 rounded-full overflow-hidden">
+                <div class="bg-rose-500 h-full rounded-full" style="width: 8.0%"></div>
+              </div>
+              <span class="w-12 text-right font-bold text-slate-800">8.0%</span>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ================= 5. AI INSIGHTS SCREEN ================= -->
+      <section id="screenInsights" class="screen-view hidden p-4 pb-20 space-y-4">
+        <!-- Header -->
+        <div>
+          <h2 class="text-xl font-extrabold text-slate-900 tracking-tight">Trí Tuệ Nhân Tạo & AI</h2>
+          <p class="text-xs text-slate-500">Mô hình học máy phát hiện xu hướng và dị thường</p>
+        </div>
+
+        <!-- Model Status Card -->
+        <div class="bg-white p-4 rounded-2xl border border-slate-200 shadow-sm space-y-2.5">
+          <div class="flex items-center gap-3">
+            <div class="w-10 h-10 rounded-xl bg-blue-100 text-blue-600 flex items-center justify-center font-bold text-lg">AI</div>
+            <div>
+              <h3 class="text-sm font-bold text-slate-900">Tiki Price Oracle v2.4</h3>
+              <p class="text-[11px] text-slate-500">Mô hình chuỗi thời gian & Isolation Forest</p>
+            </div>
+          </div>
+          <div class="grid grid-cols-3 gap-2 pt-2 border-t border-slate-100 text-center">
+            <div class="bg-slate-50 p-2 rounded-lg">
+              <span class="text-xs font-bold text-slate-900">4</span>
+              <p class="text-[9px] text-slate-400">Insights mới</p>
+            </div>
+            <div class="bg-slate-50 p-2 rounded-lg">
+              <span class="text-xs font-bold text-rose-600">1</span>
+              <p class="text-[9px] text-slate-400">Dị thường</p>
+            </div>
+            <div class="bg-slate-50 p-2 rounded-lg">
+              <span class="text-xs font-bold text-emerald-600">94.2%</span>
+              <p class="text-[9px] text-slate-400">Độ tin cậy</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- AI Insight Card 1 -->
+        <div class="bg-white p-4 rounded-2xl border border-slate-200 shadow-sm space-y-2">
+          <div class="flex items-center justify-between">
+            <span class="text-[10px] font-bold bg-blue-50 text-blue-700 px-2 py-0.5 rounded-md">Dự báo học máy</span>
+            <span class="text-[11px] font-semibold text-slate-500">Tin cậy: <b class="text-blue-600 font-bold">94%</b></span>
+          </div>
+          <h4 class="text-sm font-bold text-slate-900">Dự Báo Giảm Giá Đợt Siêu Sale 12.12</h4>
+          <p class="text-xs text-slate-600 leading-relaxed">Mô hình phát hiện chu kỳ 30 ngày ở danh mục Sách & Thiết Bị Số. Dự kiến chiết khấu trung bình tăng thêm 8.5% từ ngày 01/12.</p>
+          <div class="flex items-center justify-between pt-2 border-t border-slate-100 text-[11px] text-slate-400 font-medium">
+            <span class="bg-slate-100 px-2 py-0.5 rounded text-slate-600">Sách Tiếng Việt</span>
+            <span class="text-rose-600 font-bold">Giảm ~8.5%</span>
+          </div>
+        </div>
+
+        <!-- AI Insight Card 2: Anomaly -->
+        <div class="bg-white p-4 rounded-2xl border border-rose-200 shadow-sm space-y-2">
+          <div class="flex items-center justify-between">
+            <span class="text-[10px] font-bold bg-rose-50 text-rose-700 px-2 py-0.5 rounded-md">Phát hiện dị thường</span>
+            <span class="text-[11px] font-semibold text-slate-500">Tin cậy: <b class="text-rose-600 font-bold">89%</b></span>
+          </div>
+          <h4 class="text-sm font-bold text-slate-900">Biến Động Bất Thường: HD9252 Philips</h4>
+          <p class="text-xs text-slate-600 leading-relaxed">Biên độ biến động giá tăng vọt 18% trong 48h qua trên 3 gian hàng đối tác khác nhau. Khả năng sắp có flash sale xả kho.</p>
+          <div class="flex items-center justify-between pt-2 border-t border-slate-100 text-[11px] text-slate-400 font-medium">
+            <span class="bg-slate-100 px-2 py-0.5 rounded text-slate-600">Điện Gia Dụng</span>
+            <span class="text-rose-600 font-bold">Biên độ ±18%</span>
+          </div>
+        </div>
+      </section>
+
+      <!-- ================= 6. PROFILE & ADMIN SCRAPER SCREEN ================= -->
+      <section id="screenProfile" class="screen-view hidden p-4 pb-20 space-y-4">
+        <!-- User Info -->
+        <div class="bg-white p-4 rounded-2xl border border-slate-200 shadow-sm flex items-center gap-3">
+          <div class="w-12 h-12 rounded-full bg-blue-600 text-white font-bold text-base flex items-center justify-center shrink-0">AD</div>
+          <div class="flex-1 min-w-0">
+            <div class="flex items-center gap-2">
+              <h3 class="text-sm font-bold text-slate-900">Data Intelligence Lead</h3>
+              <span class="text-[9px] bg-blue-100 text-blue-700 font-extrabold px-1.5 py-0.5 rounded">ADMIN</span>
+            </div>
+            <p class="text-xs text-slate-500 truncate">lead-analyst@tiki-intelligence.internal</p>
+          </div>
+        </div>
+
+        <!-- ADMIN CONTROLS: CRAWLER PIPELINE -->
+        <div class="bg-white p-4 rounded-2xl border border-slate-200 shadow-sm space-y-3">
+          <div class="flex items-center justify-between">
+            <div class="flex items-center gap-2">
+              <span id="crawlerDot" class="w-2.5 h-2.5 rounded-full bg-emerald-500 animate-pulse"></span>
+              <h3 class="text-sm font-bold text-slate-900">Tiến Trình Cào Dữ Liệu Tiki</h3>
+            </div>
+            <button id="crawlerToggleBtn" onclick="toggleCrawler()" class="text-xs font-semibold px-2.5 py-1 rounded-lg bg-slate-100 text-slate-700 hover:bg-slate-200">Tạm dừng</button>
+          </div>
+
+          <div class="grid grid-cols-2 gap-2 text-xs">
+            <div class="bg-slate-50 p-2.5 rounded-xl">
+              <span class="text-[10px] text-slate-400">SKU Cào Hôm Nay</span>
+              <div class="text-sm font-bold text-slate-900 mt-0.5">38,420</div>
+            </div>
+            <div class="bg-slate-50 p-2.5 rounded-xl">
+              <span class="text-[10px] text-slate-400">Tổng Lưu Trữ</span>
+              <div class="text-sm font-bold text-slate-900 mt-0.5">48,920</div>
+            </div>
+          </div>
+
+          <!-- Live Terminal Box -->
+          <div>
+            <span class="text-[10px] font-bold text-slate-400 uppercase tracking-wider">Live Crawler Logs</span>
+            <div class="mt-1 bg-slate-950 p-3 rounded-xl font-mono text-[10px] text-slate-200 space-y-1 overflow-x-auto">
+              <p class="text-emerald-400">[21:15:30] parent_id=839 parsed 48 items to categories.csv</p>
+              <p class="text-slate-400">[21:10:12] Rate limiter active: delay 450ms</p>
+              <p class="text-emerald-400">[21:05:00] Sync local cache completed (1,250 records)</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Settings List -->
+        <div class="bg-white rounded-2xl border border-slate-200 shadow-sm divide-y divide-slate-100 text-xs">
+          <div class="p-3.5 flex items-center justify-between">
+            <span class="font-medium text-slate-800">Cảnh báo biến động giá tự động</span>
+            <input type="checkbox" checked class="w-4 h-4 accent-blue-600 rounded">
+          </div>
+          <div class="p-3.5 flex items-center justify-between">
+            <span class="font-medium text-slate-800">Tự động làm mới dữ liệu</span>
+            <input type="checkbox" checked class="w-4 h-4 accent-blue-600 rounded">
+          </div>
+          <div class="p-3.5 flex items-center justify-between">
+            <span class="font-medium text-slate-800">Giao diện (Light Theme chuẩn)</span>
+            <span class="text-slate-400 font-semibold">Mặc định</span>
+          </div>
+        </div>
+
+        <button onclick="alert('Đã đăng xuất phiên làm việc')" class="w-full py-2.5 rounded-xl border border-rose-200 text-rose-600 bg-rose-50 text-xs font-semibold active:bg-rose-100">
+          Đăng Xuất Khỏi Hệ Thống
+        </button>
+      </section>
+
+    </div>
+
+    <!-- Phone Bottom Navigation Bar (5 Tabs) -->
+    <nav class="h-16 bg-white border-t border-slate-200 flex items-center justify-around px-2 z-30 select-none">
+      <button onclick="switchTab('overview')" id="tabBtnOverview" class="tab-btn active flex-1 flex flex-col items-center gap-1 text-blue-600">
+        <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"/></svg>
+        <span class="text-[10px] font-semibold">Tổng quan</span>
+      </button>
+
+      <button onclick="switchTab('products')" id="tabBtnProducts" class="tab-btn flex-1 flex flex-col items-center gap-1 text-slate-400 hover:text-slate-600">
+        <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"/></svg>
+        <span class="text-[10px] font-semibold">Sản phẩm</span>
+      </button>
+
+      <button onclick="switchTab('analytics')" id="tabBtnAnalytics" class="tab-btn flex-1 flex flex-col items-center gap-1 text-slate-400 hover:text-slate-600">
+        <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"/></svg>
+        <span class="text-[10px] font-semibold">Phân tích</span>
+      </button>
+
+      <button onclick="switchTab('insights')" id="tabBtnInsights" class="tab-btn flex-1 flex flex-col items-center gap-1 text-slate-400 hover:text-slate-600">
+        <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M13 10V3L4 14h7v7l9-11h-7z"/></svg>
+        <span class="text-[10px] font-semibold">AI Insights</span>
+      </button>
+
+      <button onclick="switchTab('profile')" id="tabBtnProfile" class="tab-btn flex-1 flex flex-col items-center gap-1 text-slate-400 hover:text-slate-600">
+        <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"/></svg>
+        <span class="text-[10px] font-semibold">Hệ thống</span>
+      </button>
+    </nav>
+
+    <!-- Bottom Home Indicator -->
+    <div class="h-5 bg-white flex items-center justify-center z-30">
+      <div class="w-32 h-1 bg-slate-300 rounded-full"></div>
+    </div>
+  </main>
+
+  <!-- Interactive JavaScript Engine -->
+  <script>
+    const PRODUCTS = [
+      {
+        id: 'tiki-prod-01',
+        sku: 'TIKI-839-9941',
+        name: 'Cây Cam Ngọt Của Tôi - Tái bản 2024 (Bìa Mềm)',
+        category: 'Sách Tiếng Việt',
+        currentPrice: '75,600₫',
+        originalPrice: '108,000₫',
+        discount: 30,
+        rating: 4.9,
+        reviews: '18.4k',
+        store: 'Tiki Trading Official',
+        image: 'https://images.unsplash.com/photo-1544947950-fa07a98d237f?w=400&auto=format&fit=crop&q=80'
+      },
+      {
+        id: 'tiki-prod-02',
+        sku: 'TIKI-839-1082',
+        name: 'Tâm Lý Học Về Tiền - Morgan Housel (Bản Dịch Chuẩn)',
+        category: 'Sách Tiếng Việt',
+        currentPrice: '132,000₫',
+        originalPrice: '189,000₫',
+        discount: 30,
+        rating: 4.8,
+        reviews: '9.6k',
+        store: 'Nhã Nam Books',
+        image: 'https://images.unsplash.com/photo-1592496431122-2349e0fbc666?w=400&auto=format&fit=crop&q=80'
+      },
+      {
+        id: 'tiki-prod-03',
+        sku: 'TIKI-1789-5501',
+        name: 'Tai Nghe Không Dây Apple AirPods Pro 2 USB-C VN/A',
+        category: 'Thiết Bị Số',
+        currentPrice: '5,190,000₫',
+        originalPrice: '6,190,000₫',
+        discount: 16,
+        rating: 4.9,
+        reviews: '3.2k',
+        store: 'Apple Flagship Store',
+        image: 'https://images.unsplash.com/photo-1600294037681-c80b4cb5b434?w=400&auto=format&fit=crop&q=80'
+      },
+      {
+        id: 'tiki-prod-04',
+        sku: 'TIKI-1882-7720',
+        name: 'Nồi Chiên Không Dầu Philips HD9252/90 4.1L Rapid Air',
+        category: 'Điện Gia Dụng',
+        currentPrice: '1,690,000₫',
+        originalPrice: '2,890,000₫',
+        discount: 41,
+        rating: 4.7,
+        reviews: '4.1k',
+        store: 'Philips Domestic Appliances',
+        image: 'https://images.unsplash.com/photo-1584269600464-37b1b58a9fe7?w=400&auto=format&fit=crop&q=80'
+      },
+      {
+        id: 'tiki-prod-05',
+        sku: 'TIKI-839-3312',
+        name: 'Đắc Nhân Tâm - Dale Carnegie (Bản dịch First News)',
+        category: 'Sách Tiếng Việt',
+        currentPrice: '68,000₫',
+        originalPrice: '88,000₫',
+        discount: 23,
+        rating: 4.9,
+        reviews: '28.4k',
+        store: 'First News - Trí Việt Official',
+        image: 'https://images.unsplash.com/photo-1512820790803-83ca734da794?w=400&auto=format&fit=crop&q=80'
+      },
+      {
+        id: 'tiki-prod-06',
+        sku: 'TIKI-1789-9902',
+        name: 'Bàn Phím Cơ Không Dây Keychron K2 Pro QMK/VIA Hot-swap',
+        category: 'Thiết Bị Số',
+        currentPrice: '2,150,000₫',
+        originalPrice: '2,550,000₫',
+        discount: 15,
+        rating: 4.8,
+        reviews: '890',
+        store: 'SiliconZ Store',
+        image: 'https://images.unsplash.com/photo-1587829741301-dc798b83add3?w=400&auto=format&fit=crop&q=80'
+      }
+    ];
+
+    let currentFilterCat = 'all';
+    let currentSearchTerm = '';
+    let isCrawlerActive = true;
+
+    function renderProducts() {
+      const container = document.getElementById('productsListContainer');
+      const filtered = PRODUCTS.filter(p => {
+        const matchCat = currentFilterCat === 'all' || p.category === currentFilterCat;
+        const matchSearch = p.name.toLowerCase().includes(currentSearchTerm.toLowerCase()) || p.sku.toLowerCase().includes(currentSearchTerm.toLowerCase());
+        return matchCat && matchSearch;
+      });
+
+      if (filtered.length === 0) {
+        container.innerHTML = `
+          <div class="text-center py-12 text-slate-400">
+            <p class="text-xs font-semibold">Không tìm thấy sản phẩm phù hợp</p>
+          </div>
+        `;
+        return;
+      }
+
+      container.innerHTML = filtered.map(p => `
+        <div onclick="openProductDetail('${p.id}')" class="bg-white p-3 rounded-2xl border border-slate-200 shadow-sm flex gap-3 cursor-pointer active:scale-[0.99] transition">
+          <div class="relative w-16 h-20 rounded-xl overflow-hidden bg-slate-100 shrink-0">
+            <img src="${p.image}" class="w-full h-full object-cover">
+            ${p.discount > 0 ? `<span class="absolute top-1 left-1 bg-rose-600 text-white text-[8px] font-bold px-1 rounded">-${p.discount}%</span>` : ''}
+          </div>
+          <div class="flex-1 min-w-0">
+            <div class="flex items-center justify-between">
+              <span class="font-mono text-[9px] bg-slate-100 text-slate-600 px-1.5 py-0.5 rounded font-semibold">${p.sku}</span>
+              <span class="text-[10px] text-slate-400 truncate">${p.category}</span>
+            </div>
+            <h4 class="text-xs font-semibold text-slate-900 mt-1 line-clamp-2">${p.name}</h4>
+            <div class="flex items-baseline gap-2 mt-1">
+              <span class="text-sm font-bold text-blue-600">${p.currentPrice}</span>
+              <span class="text-[10px] text-slate-400 line-through">${p.originalPrice}</span>
+            </div>
+            <div class="flex items-center justify-between mt-1 text-[10px] text-slate-500">
+              <span class="text-amber-500 font-semibold">★ ${p.rating} (${p.reviews})</span>
+              <span class="truncate max-w-[100px] text-slate-400">${p.store}</span>
+            </div>
+          </div>
+        </div>
+      `).join('');
+    }
+
+    function handleSearch(val) {
+      currentSearchTerm = val;
+      renderProducts();
+    }
+
+    function filterCategory(cat, el) {
+      currentFilterCat = cat;
+      document.querySelectorAll('.cat-pill').forEach(btn => {
+        btn.classList.remove('bg-blue-600', 'text-white', 'active');
+        btn.classList.add('bg-white', 'text-slate-600');
+      });
+      el.classList.remove('bg-white', 'text-slate-600');
+      el.classList.add('bg-blue-600', 'text-white', 'active');
+      renderProducts();
+    }
+
+    function openProductDetail(id) {
+      const p = PRODUCTS.find(x => x.id === id) || PRODUCTS[0];
+      document.getElementById('detailSku').innerText = p.sku;
+      document.getElementById('detailName').innerText = p.name;
+      document.getElementById('detailCategory').innerText = p.category;
+      document.getElementById('detailCurrentPrice').innerText = p.currentPrice;
+      document.getElementById('detailOriginalPrice').innerText = p.originalPrice;
+      document.getElementById('detailStoreName').innerText = p.store;
+      document.getElementById('detailImg').src = p.image;
+      document.getElementById('detailDiscountBadge').innerText = `-${p.discount}% GIẢM`;
+
+      // Hide all, show product detail
+      document.querySelectorAll('.screen-view').forEach(s => s.classList.add('hidden'));
+      document.getElementById('screenProductDetail').classList.remove('hidden');
+      document.getElementById('screenContainer').scrollTop = 0;
+    }
+
+    function closeProductDetail() {
+      switchTab('products');
+    }
+
+    function selectChartNode(date, price) {
+      document.getElementById('chartDateCallout').innerText = `Ghi nhận: ${date}`;
+      document.getElementById('chartPriceCallout').innerText = price;
+    }
+
+    function toggleCrawler() {
+      isCrawlerActive = !isCrawlerActive;
+      const dot = document.getElementById('crawlerDot');
+      const btn = document.getElementById('crawlerToggleBtn');
+      if (isCrawlerActive) {
+        dot.className = 'w-2.5 h-2.5 rounded-full bg-emerald-500 animate-pulse';
+        btn.innerText = 'Tạm dừng';
+        btn.className = 'text-xs font-semibold px-2.5 py-1 rounded-lg bg-slate-100 text-slate-700 hover:bg-slate-200';
+      } else {
+        dot.className = 'w-2.5 h-2.5 rounded-full bg-slate-400';
+        btn.innerText = 'Tiếp tục';
+        btn.className = 'text-xs font-semibold px-2.5 py-1 rounded-lg bg-emerald-600 text-white';
+      }
+    }
+
+    function switchTab(tabKey) {
+      // Hide all screens
+      document.querySelectorAll('.screen-view').forEach(s => s.classList.add('hidden'));
+
+      // Show selected screen
+      const screenId = 'screen' + tabKey.charAt(0).toUpperCase() + tabKey.slice(1);
+      const targetScreen = document.getElementById(screenId);
+      if (targetScreen) targetScreen.classList.remove('hidden');
+
+      // Update Tab Bar Active State
+      document.querySelectorAll('.tab-btn').forEach(btn => {
+        btn.classList.remove('text-blue-600', 'active');
+        btn.classList.add('text-slate-400');
+      });
+      const activeBtn = document.getElementById('tabBtn' + tabKey.charAt(0).toUpperCase() + tabKey.slice(1));
+      if (activeBtn) {
+        activeBtn.classList.remove('text-slate-400');
+        activeBtn.classList.add('text-blue-600', 'active');
+      }
+
+      document.getElementById('screenContainer').scrollTop = 0;
+    }
+
+    // Initial render
+    renderProducts();
+  </script>
+</body>
+</html>
