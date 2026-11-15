@@ -89,3 +89,35 @@ Lưu cái bảng dữ liệu vừa tạo thành một file CSV cứng trên ổ 
 ---
 
 > **Tổng kết:** Cấu trúc code này của bạn rất chuẩn chỉnh và gọn gàng cho một pipeline thu thập dữ liệu (ETL). Bạn có thể áp dụng nguyên bộ khung này (đổi URL, đổi cách parse JSON) cho hầu hết các API RESTful khác.
+
+
+
+# Categories_details.py
+### 2. Cấu hình Endpoint, Headers và Tham số truy vấn (Parameters)
+
+**Chức năng tổng quát:**  
+Thiết lập địa chỉ API mục tiêu, giả lập thông tin trình duyệt để tránh bị chặn truy cập tự động (anti-bot), đồng thời truyền bộ lọc lấy toàn bộ danh mục con và danh mục cháu của nhóm "Sách tiếng Việt".
+
+**Chi tiết từng dòng:**
+* `url = "https://tiki.vn/api/v2/categories"`: Khai báo địa chỉ API gốc quản lý danh mục của Tiki.
+* `headers = { ... }`: Tạo dictionary chứa thông tin định danh người gửi:
+  * `'User-Agent': 'Mozilla/5.0...'`: Giả lập yêu cầu được gửi từ trình duyệt Chrome trên Windows 10 để máy chủ Tiki chấp nhận kết nối.
+* `params = {"include": "children", "parent_id": 316}`: Khai báo các tham số lọc đính kèm vào URL:
+  * `"parent_id": 316`: Chỉ định lấy các danh mục thuộc nhóm cha có ID là `316` (danh mục "Sách tiếng Việt").
+  * `"include": "children"`: Yêu cầu API trả về đầy đủ cả các danh mục cấp con và cấp cháu lồng bên trong.
+
+---
+
+### 3. Gửi Request và Giải mã dữ liệu JSON
+
+**Chức năng tổng quát:**  
+Thực hiện cuộc gọi API lên máy chủ Tiki, kiểm tra trạng thái phản hồi để phát hiện lỗi (nếu có) và chuyển đổi dữ liệu thô nhận được thành cấu trúc dữ liệu của Python.
+
+**Chi tiết từng dòng:**
+* `response = requests.get(url, params=params, headers=headers)`: Gửi yêu cầu `GET` tới `url` kèm theo `params` và `headers` đã cấu hình, sau đó lưu toàn bộ phản hồi vào biến `response`.
+* `response.raise_for_status()`: Kiểm tra mã trạng thái HTTP. Nếu cuộc gọi gặp lỗi (ví dụ mã `403 Forbidden`, `404 Not Found`, `500 Server Error`), dòng này sẽ lập tức dừng chương trình và báo lỗi thay vì chạy tiếp với dữ liệu rỗng.
+* `data = response.json()`: Phân tích cú pháp (parse) chuỗi JSON từ phản hồi của máy chủ thành kiểu dữ liệu dictionary/list trong Python và lưu vào biến `data`.
+
+---
+
+# Books.py
