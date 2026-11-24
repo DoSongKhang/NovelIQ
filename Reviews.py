@@ -40,8 +40,8 @@ CHECKPOINT_FILE  = os.path.join(REVIEW_DIR, "checkpoint.json")
 REVIEWS_API      = "https://tiki.vn/api/v2/reviews"
 LIMIT_PER_PAGE   = 20         # Số review mỗi trang (tối đa 20 theo API Tiki)
 MAX_PAGES        = 10         # Giới hạn số trang mỗi sách (None = cào hết)
-DELAY_BETWEEN    = 0.6        # Thời gian nghỉ giữa các trang (giây)
-DELAY_BOOK       = 0.8        # Thời gian nghỉ giữa các cuốn sách (giây)
+DELAY_BETWEEN    = 0.1       # Thời gian nghỉ giữa các trang (giây)
+DELAY_BOOK       = 0.2        # Thời gian nghỉ giữa các cuốn sách (giây)
 SAVE_INTERVAL    = 5          # Lưu an toàn sau mỗi N cuốn sách hoặc ngay khi có review mới
 TEST_MODE        = False      # True = chỉ chạy thử 1 thể loại và 2 sách đầu tiên
 
@@ -69,7 +69,7 @@ def atomic_save_json(filepath: str, data) -> bool:
         os.replace(tmp_path, filepath)
         return True
     except Exception as e:
-        print(f"  ❌ Lỗi khi ghi file an toàn {filepath}: {e}")
+        print(f"Lỗi khi ghi file an toàn {filepath}: {e}")
         if os.path.exists(tmp_path):
             os.remove(tmp_path)
         return False
@@ -143,7 +143,7 @@ def load_category_reviews(cat_id: str) -> tuple[list[dict], set[int]]:
 # ─────────────────────────────────────────────
 # CÀO REVIEWS CỦA 1 CUỐN SÁCH TỪ TIKI API
 # ─────────────────────────────────────────────
-def fetch_reviews_for_book(session, product_id: int) -> list[dict]:
+def fetch_reviews_for_book(session, product_id: int) -> tuple[bool, list[dict]]:
     """
     Gọi API reviews của Tiki và chuẩn hóa CHỈ LẤY ĐÚNG 6 TRƯỜNG:
     1. review_id (int)
@@ -152,6 +152,10 @@ def fetch_reviews_for_book(session, product_id: int) -> list[dict]:
     4. content (str)
     5. rating (int)
     6. reviewer (str)
+
+    Trả về:
+    - (True, book_reviews): Nếu cào thành công tất cả các trang (HTTP status 200).
+    - (False, []): Nếu gặp bất kỳ lỗi status nào (!= 200) hoặc lỗi kết nối/JSON.
     """
     book_reviews = []
     page = 1
@@ -167,47 +171,54 @@ def fetch_reviews_for_book(session, product_id: int) -> list[dict]:
 
         try:
             r = session.get(REVIEWS_API, headers=HEADERS, params=params, timeout=15)
-            if r.status_code == 404:
-                # Sách không tìm thấy hoặc đã gỡ
-                break
-            r.raise_for_status()
         except Exception as e:
-            print(f"Lỗi kết nối trang {page}: {e}")
-            break
+            print(f"Lỗi kết nối khi cào trang {page}: {e}")
+            return False, []
+
+        # Chỉ chấp nhận HTTP status 200
+        if r.status_code != 200:
+            print(f"Lỗi HTTP status {r.status_code} ở trang {page} (không phải 200 OK)")
+            return False, []
 
         try:
             data = r.json()
-        except Exception:
-            print(f"Không giải mã được JSON trang {page}")
-            break
+        except Exception as e:
+            print(f"Không giải mã được JSON trang {page}: {e}")
+            return False, []
+
+        if not isinstance(data, dict):
+            print(f"Dữ liệu trả về không hợp lệ (không phải dict) ở trang {page}")
+            return False, []
 
         reviews_raw = data.get("data", [])
-        if not reviews_raw:
-            break
+        if isinstance(reviews_raw, list):
+            for rv in reviews_raw:
+                if not isinstance(rv, dict):
+                    continue
+                # Xử lý tên người đánh giá
+                reviewer_obj = rv.get("created_by")
+                reviewer_name = "Ẩn danh"
+                if isinstance(reviewer_obj, dict):
+                    reviewer_name = reviewer_obj.get("name") or "Ẩn danh"
 
-        for rv in reviews_raw:
-            # Xử lý tên người đánh giá
-            reviewer_obj = rv.get("created_by")
-            reviewer_name = "Ẩn danh"
-            if isinstance(reviewer_obj, dict):
-                reviewer_name = reviewer_obj.get("name") or "Ẩn danh"
+                review_id_val = rv.get("id")
+                rating_val = rv.get("rating", 0)
 
-            review_id_val = rv.get("id")
-            rating_val = rv.get("rating", 0)
-
-            # Tạo dictionary đúng 6 trường quy chuẩn
-            review_doc = {
-                "review_id": int(review_id_val) if review_id_val is not None else 0,
-                "product_id": int(product_id),
-                "title": str(rv.get("title") or "").strip(),
-                "content": str(rv.get("content") or "").strip(),
-                "rating": int(rating_val) if rating_val is not None else 0,
-                "reviewer": str(reviewer_name).strip() if reviewer_name else "Ẩn danh",
-            }
-            book_reviews.append(review_doc)
+                # Tạo dictionary đúng 6 trường quy chuẩn
+                review_doc = {
+                    "review_id": int(review_id_val) if review_id_val is not None else 0,
+                    "product_id": int(product_id),
+                    "title": str(rv.get("title") or "").strip(),
+                    "content": str(rv.get("content") or "").strip(),
+                    "rating": int(rating_val) if rating_val is not None else 0,
+                    "reviewer": str(reviewer_name).strip() if reviewer_name else "Ẩn danh",
+                }
+                book_reviews.append(review_doc)
 
         # Phân trang
         paging = data.get("paging", {})
+        if not isinstance(paging, dict):
+            paging = {}
         current_page = paging.get("current_page", page)
         last_page = paging.get("last_page", 1)
         total = paging.get("total", 0)
@@ -215,7 +226,7 @@ def fetch_reviews_for_book(session, product_id: int) -> list[dict]:
         if page == 1 and total > 0:
             print(f"Tổng {total} reviews | {last_page} trang")
 
-        if current_page >= last_page:
+        if current_page >= last_page or not reviews_raw:
             break
         if MAX_PAGES and page >= MAX_PAGES:
             print(f"Giới hạn MAX_PAGES={MAX_PAGES} (dừng ở trang {page}/{last_page})")
@@ -224,7 +235,7 @@ def fetch_reviews_for_book(session, product_id: int) -> list[dict]:
         page += 1
         time.sleep(DELAY_BETWEEN)
 
-    return book_reviews
+    return True, book_reviews
 
 
 # ─────────────────────────────────────────────
@@ -326,13 +337,21 @@ def main():
                         print(f"    [{b_idx}/{cat_total_books}] ⏭  Đã xử lý trước đó: ID {bid}")
                     continue
 
-                print(f"    [{b_idx}/{cat_total_books}] Cào sách: {bname} (ID: {bid})")
+                print(f"[{b_idx}/{cat_total_books}] Cào sách: {bname} (ID: {bid})")
                 try:
-                    book_rvs = fetch_reviews_for_book(session, bid)
+                    success, book_rvs = fetch_reviews_for_book(session, bid)
                 except Exception as e:
-                    print(f"Lỗi khi lấy reviews sách {bid}: {e}")
+                    print(f"Lỗi bất thường khi lấy reviews sách {bid}: {e}")
+                    success = False
+                    book_rvs = []
+
+                # KHÔNG ghi vào checkpoint nếu gặp bất kỳ mã lỗi status nào (!= 200) hoặc lỗi kết nối
+                if not success:
+                    print(f"[BỎ QUA CHECKPOINT] Sách ID {bid} gặp lỗi (status != 200). Không ghi checkpoint để xử lý lại sau.")
+                    time.sleep(DELAY_BOOK)
                     continue
 
+                # Chỉ khi status == 200 thành công mới tiến hành ghi nhận dữ liệu và checkpoint
                 added_for_this_book = 0
                 if book_rvs:
                     for rv in book_rvs:
@@ -344,9 +363,9 @@ def main():
                             new_reviews_in_cat += 1
                     print(f"Thu thập {added_for_this_book} reviews mới (Tổng trong category: {len(cat_reviews):,})")
                 else:
-                    print(f"Sách chưa có review nào.")
+                    print(f"Sách chưa có review nào (HTTP 200 OK)")
 
-                # Đánh dấu sách đã xử lý
+                # Đánh dấu sách đã xử lý thành công (status 200) vào checkpoint
                 processed_book_ids.add(bid)
                 books_crawled_in_cat += 1
                 unsaved_count += 1
@@ -360,14 +379,24 @@ def main():
 
                 time.sleep(DELAY_BOOK)
 
-            # Lưu hoàn tất cho category này
+            # Lưu dữ liệu reviews của thể loại này
             atomic_save_json(out_cat_file, cat_reviews)
-            completed_categories.add(cat_id)
             stats[cat_id] = len(cat_reviews)
+
+            # Chỉ ghi nhận hoàn thành thể loại vào completed_categories nếu 100% sách đều thành công (status 200)
+            valid_book_ids = [int(b["_id"]) for b in books if b.get("_id") is not None]
+            all_cat_books_done = len(valid_book_ids) > 0 and all(bid in processed_book_ids for bid in valid_book_ids)
+
+            if all_cat_books_done:
+                completed_categories.add(cat_id)
+                print(f"Hoàn thành 100% thể loại {cat_id}: Lưu tổng cộng {len(cat_reviews):,} reviews vào {out_cat_file}")
+            else:
+                remaining_failed = sum(1 for bid in valid_book_ids if bid not in processed_book_ids)
+                print(f"Thể loại {cat_id} còn {remaining_failed}/{len(valid_book_ids)} sách chưa thành công (status != 200).")
+                print(f"Chưa ghi nhận hoàn tất thể loại {cat_id} vào checkpoint để có thể cào lại.")
+
             save_checkpoint(processed_book_ids, completed_categories, stats)
             total_reviews_all += len(cat_reviews)
-
-            print(f"  ✨ Hoàn thành thể loại {cat_id}: Lưu tổng cộng {len(cat_reviews):,} reviews vào {out_cat_file}")
 
     except KeyboardInterrupt:
         print("\n\n Người dùng nhấn Ctrl+C để dừng tiến trình!")
